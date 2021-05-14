@@ -3,8 +3,14 @@ name = "block"
 version = "0.1.0"
 authors = ["Kevin Nause <kevin@nause.engineering>"]
 edition = "2018"
-
+build = "build.rs"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[build-dependencies]
+dirs = "3.0"
+env_logger = "0.8"
+git2 = "0.13"
+log = "0.4"
 
 [dependencies]
 bincode = "1.3"
