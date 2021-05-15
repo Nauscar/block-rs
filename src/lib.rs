@@ -4,18 +4,12 @@ pub mod block;
 pub mod error;
 
 #[cfg(test)]
+mod test;
+
+#[cfg(test)]
 mod tests {
     use crate::block::Block;
-    use serde::{Deserialize, Serialize};
-
-    #[derive(Debug, Default, Deserialize, PartialEq, Serialize)]
-    struct Test(String);
-
-    impl Test {
-        pub fn new(s: &str) -> Self {
-            Self { 0: s.to_owned() }
-        } 
-    }
+    use crate::test::Test;
 
     #[test]
     fn it_works() {
@@ -23,16 +17,16 @@ mod tests {
         std::env::set_var(stringify!(RUST_LOG), RUST_LOG);
         env_logger::init();
 
-        let test_str = "test";
+        let test = Test::new("test");
 
         {
-            let mut test: Block<Test> = Block::load(stringify!(test));
-            test.set(Test::new(test_str));
+            let mut block: Block<Test> = Block::load(stringify!(block));
+            block.set(test.clone());
         }
 
         {
-            let test: Block<Test> = Block::load(stringify!(test));
-            assert_eq!(test_str, test.get().0);
+            let block: Block<Test> = Block::load(stringify!(block));
+            assert_eq!(test, block.get().to_owned());
         }
     }
 }
